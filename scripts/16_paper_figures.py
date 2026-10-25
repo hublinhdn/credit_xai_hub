@@ -236,8 +236,10 @@ def table_controls(controls: dict[str, dict], out: Path) -> None:
         lines.append(f"{names[key]} & {cells[0]} & {cells[1]} \\\\")
     out.write_text(tex_table(
         lines, "Control & German Credit & Taiwan default",
-        "Three controls separating the attribution measure and the feature space "
-        "from the model family. Spearman rank correlation of feature attributions.",
+        "Controls A, B and C: the attribution measure and the feature space, each "
+        "separated in turn from the model family. Spearman rank correlation of "
+        "feature attributions. Control D, which tests whether C measured the "
+        "models or the projection they share, has its own table.",
         "tab:controls", "lcc"))
     print(f"  wrote {out}")
 
