@@ -104,15 +104,8 @@ def fig_controls(controls: dict[str, dict], out: Path) -> None:
                         markerfacecolor="white", markeredgewidth=1.2, zorder=4)
                 ax.annotate(k, (xi - width * 0.26, v), textcoords="offset points",
                             xytext=(8, -3), fontsize=7.5, color="black")
-        for xi, key, v, top in zip(pos, ("A", "B", "C"), vals, tops):
-            if not np.isfinite(v):
-                continue
-            node = c.get(key, {})
-            dots = [s_["rho"] for s_ in node.values()
-                    if isinstance(s_, dict) and "rho" in s_]
-            ceiling = max([top] + dots) if dots else top
-            ax.text(xi, ceiling + 0.05, f"{v:.3f}", ha="center", fontsize=9.5,
-                    fontweight="bold")
+        # No value labels: Table~\ref{tab:controls} carries the numbers, and
+        # printing them here put the same six figures on the page twice.
 
     ax.axhline(0, color="black", linewidth=0.8)
     ax.set_xticks(x)
@@ -217,68 +210,62 @@ def table_discrimination(rows: list[dict], mcnemar: dict, out: Path) -> None:
     print(f"  wrote {out}")
 
 
-def table_controls(controls: dict[str, dict], out: Path) -> None:
-    lines = []
+def table_controls(controls: dict[str, dict], nulls: dict[str, dict], out: Path) -> None:
+    """The four controls in one table.
+
+    Control D used to have a table of its own, which repeated C's value as one
+    of its rows. One table, with a rule between the controls and the
+    diagnostics that interpret C, says the same thing once.
+    """
     names = {"A": "A. Measure (input gradient vs SHAP)",
              "B": "B. Representation (PCA round trip)",
              "C": "C. Model family (two families, one space)"}
+    lines = []
     for key in ("A", "B", "C"):
         cells = []
         for ds in ("german", "taiwan"):
             node = controls.get(ds, {}).get(key, {})
             if key in ("A", "B"):
                 sub = [v for v in node.values() if isinstance(v, dict) and "rho" in v]
-                cells.append(f"{np.mean([s['rho'] for s in sub]):.3f}" if sub else "--")
+                cells.append(f"{np.mean([s_['rho'] for s_ in sub]):.3f}" if sub else "--")
             else:
-                r = node.get("rho")
-                lo, hi = node.get("lo"), node.get("hi")
+                r, lo, hi = node.get("rho"), node.get("lo"), node.get("hi")
                 cells.append(f"{r:.3f} [{lo:.3f}, {hi:.3f}]" if r is not None else "--")
         lines.append(f"{names[key]} & {cells[0]} & {cells[1]} \\\\")
+
+    if nulls:
+        lines.append("\\midrule")
+        lines.append("\\multicolumn{3}{l}{\\emph{D. Is C the models, or the map "
+                     "they share?}} \\\\")
+        for label, key, ci in (
+            ("\\quad C's two attributions, before the map", "observed_component_space", False),
+            ("\\quad Permutation null, after the map", "permutation_null", True),
+        ):
+            cells = []
+            for ds in ("german", "taiwan"):
+                node = nulls.get(ds, {}).get(key)
+                if not node:
+                    cells.append("--")
+                elif ci:
+                    cells.append(f"{node['rho']:.3f} [{node['lo']:.3f}, {node['hi']:.3f}]")
+                else:
+                    cells.append(f"{node['rho']:.3f}")
+            lines.append(f"{label} & {cells[0]} & {cells[1]} \\\\")
+        frac = []
+        for ds in ("german", "taiwan"):
+            v = nulls.get(ds, {}).get("null_exceeds_observed_fraction")
+            frac.append(f"{100 * v:.2f}\\%" if v is not None else "--")
+        lines.append(f"\\quad Null draws reaching C & {frac[0]} & {frac[1]} \\\\")
+
     out.write_text(tex_table(
         lines, "Control & German Credit & Taiwan default",
-        "Controls A, B and C: the attribution measure and the feature space, each "
-        "separated in turn from the model family. Spearman rank correlation of "
-        "feature attributions. Control D, which tests whether C measured the "
-        "models or the projection they share, has its own table.",
+        "The four controls. A, B and C each separate one thing from the model "
+        "family; D asks whether C measured the models or the loading matrix "
+        "both its attributions pass through, by comparing them before that "
+        "matrix is applied and against a null that reassigns each model's "
+        "component magnitudes at random. C is interpretable only where it "
+        "clears that null. Spearman rank correlation throughout.",
         "tab:controls", "lcc"))
-    print(f"  wrote {out}")
-
-
-
-def table_null(nulls: dict[str, dict], out: Path) -> None:
-    """Control D: is control C the models, or the map they share?"""
-    rows = [
-        ("Before the map, component space", "observed_component_space", False),
-        ("After the map, i.e.\\ Control C", "observed_back_projected", False),
-        ("Permutation null, after the map", "permutation_null", True),
-    ]
-    lines = []
-    for label, key, with_ci in rows:
-        cells = []
-        for ds in ("german", "taiwan"):
-            node = nulls.get(ds, {}).get(key)
-            if not node:
-                cells.append("--")
-            elif with_ci:
-                cells.append(f"{node['rho']:.3f} [{node['lo']:.3f}, {node['hi']:.3f}]")
-            else:
-                cells.append(f"{node['rho']:.3f}")
-        lines.append(f"{label} & {cells[0]} & {cells[1]} \\\\")
-    frac = []
-    for ds in ("german", "taiwan"):
-        v = nulls.get(ds, {}).get("null_exceeds_observed_fraction")
-        frac.append(f"{100 * v:.2f}\\%" if v is not None else "--")
-    lines.append("\\midrule")
-    lines.append(f"Null draws reaching the observed value & {frac[0]} & {frac[1]} \\\\")
-    out.write_text(tex_table(
-        lines, "Control D & German Credit & Taiwan default",
-        "Control D. Control C sends both attributions through one loading "
-        "matrix, so its value is read against the same attributions compared "
-        "before that matrix is applied, and against a null in which each "
-        "model's component magnitudes are reassigned to components at random. "
-        "Control C is interpretable only where the observed value clears the "
-        "null.",
-        "tab:null", "lcc"))
     print(f"  wrote {out}")
 
 
@@ -319,9 +306,7 @@ def main() -> int:
     if german:
         table_discrimination(german, mcn, args.tex_dir / "tab_discrimination.tex")
     if controls:
-        table_controls(controls, args.tex_dir / "tab_controls.tex")
-    if nulls:
-        table_null(nulls, args.tex_dir / "tab_null.tex")
+        table_controls(controls, nulls, args.tex_dir / "tab_controls.tex")
     return 0
 
 
