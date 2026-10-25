@@ -124,6 +124,14 @@ def main() -> int:
 
     a_vals: dict[str, list[float]] = {"lr": [], "mlp": []}
     b_vals: dict[str, list[float]] = {"lr": [], "mlp": []}
+    # Control B compares a family on raw features against the same family on
+    # components. That is also a pair of models, so it is owed the same
+    # precondition control C gets: if the reduced model is simply worse, the
+    # low agreement measures the accuracy gap, which is the trap section 5.1
+    # of the paper warns about.
+    b_auc: dict[str, dict[str, list[float]]] = {"raw": {"lr": [], "mlp": []},
+                                                "pca": {"lr": [], "mlp": []}}
+    b_mcnemar: dict[str, list[float]] = {"lr": [], "mlp": []}
     c_vals: list[float] = []
     c_auc: dict[str, list[float]] = {"lr": [], "mlp": []}
     c_mcnemar: list[float] = []
@@ -148,6 +156,8 @@ def main() -> int:
 
         for key, (proto, linear) in models.items():
             raw = clone(proto).fit(Z_tr, ds.y[tr])
+            raw_proba = raw.predict_proba(Z_te)[:, 1]
+            b_auc["raw"][key].append(float(roc_auc_score(ds.y[te], raw_proba)))
             shap_raw = shap_values(raw, Z_tr, Z_te, linear, args.seed)
             grad_raw = input_gradient(lambda a: raw.predict_proba(a)[:, 1], Z_te)
             a_vals[key].append(rho(shap_raw, grad_raw))
@@ -159,7 +169,11 @@ def main() -> int:
 
             proba = on_pca.predict_proba(P_te)[:, 1]
             c_auc[key].append(float(roc_auc_score(ds.y[te], proba)))
+            b_auc["pca"][key].append(float(roc_auc_score(ds.y[te], proba)))
             pca_pred[key] = (proba >= 0.5).astype(int)
+            b_mcnemar[key].append(mcnemar((raw_proba >= 0.5).astype(int),
+                                          (proba >= 0.5).astype(int),
+                                          ds.y[te]).p_value)
 
         # Control C: two families inside the same principal component space,
         # both projected back the same way. This pairs directly with control B,
@@ -182,6 +196,16 @@ def main() -> int:
     out = {"A": {k: report(f"{k}: SHAP vs input gradient, raw features", v) for k, v in a_vals.items()}}
 
     print(f"\n{'=' * 78}\nB  representation: does PCA back-projection preserve the ranking?\n{'=' * 78}")
+    out["B_precondition"] = {}
+    for k in ("lr", "mlp"):
+        adj_b = holm({f"fold{i}": p for i, p in enumerate(b_mcnemar[k])})
+        sep = sum(1 for v in adj_b.values() if v["significant_05"])
+        raw_m, pca_m = np.mean(b_auc["raw"][k]), np.mean(b_auc["pca"][k])
+        print(f"  precondition {k}: AUC {raw_m:.4f} on raw features against "
+              f"{pca_m:.4f} on components; McNemar with Holm separates them on "
+              f"{sep} of {len(b_mcnemar[k])} folds")
+        out["B_precondition"][k] = {"auc_raw": float(raw_m), "auc_pca": float(pca_m),
+                                    "n_separable": sep, "n_folds": len(b_mcnemar[k])}
     out["B"] = {k: report(f"{k}: raw SHAP vs PCA SHAP projected back", v) for k, v in b_vals.items()}
 
     print(f"\n{'=' * 78}\nC  model family: two families inside one representation\n{'=' * 78}")
