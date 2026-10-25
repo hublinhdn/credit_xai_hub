@@ -56,70 +56,74 @@ def load_aggregates(classical: Path, dataset: str) -> list[dict]:
 
 
 def fig_controls(controls: dict[str, dict], out: Path) -> None:
-    """The paper's key figure: the three controls, both datasets.
+    """What each change costs, which is the sentence the paper actually makes.
 
-    Shows at a glance that the measure is innocent, the projection is not, and
-    that two model families inside one feature space agree closely.
+    The first version of this plotted agreement, while every claim in the text
+    is about agreement lost, so a reader had to invert it in their head. It
+    also drew a bar for Taiwan's control C that the next paragraph withdraws.
+    Both are fixed here: the axis is cost, and the withdrawn value is marked
+    as not measurable rather than drawn and then disowned.
     """
-    labels = ["A. measure\n(gradient vs SHAP)",
-              "B. representation\n(PCA round trip)",
-              "C. model family\n(two families, one space)"]
-    fig, ax = plt.subplots(figsize=(9, 5.2))
-    width = 0.36
-    x = np.arange(3)
+    def mean_rho(node: dict) -> float:
+        sub = [v["rho"] for v in node.values() if isinstance(v, dict) and "rho" in v]
+        return float(np.mean(sub)) if sub else np.nan
 
-    for i, (ds, col) in enumerate((("german", C_CLASSICAL), ("taiwan", C_WARN))):
-        c = controls.get(ds)
-        if not c:
-            continue
-        vals, los, his = [], [], []
-        for key in ("A", "B", "C"):
-            node = c.get(key, {})
-            if key in ("A", "B"):
-                sub = [v for v in node.values() if isinstance(v, dict) and "rho" in v]
-                v = float(np.mean([s["rho"] for s in sub])) if sub else np.nan
-                lo = float(np.mean([s["lo"] for s in sub])) if sub else np.nan
-                hi = float(np.mean([s["hi"] for s in sub])) if sub else np.nan
-            else:
-                v, lo, hi = node.get("rho", np.nan), node.get("lo", np.nan), node.get("hi", np.nan)
-            vals.append(v)
-            los.append(v - lo if np.isfinite(lo) else 0)
-            his.append(hi - v if np.isfinite(hi) else 0)
-        tops = [v + h if np.isfinite(v) else np.nan for v, h in zip(vals, his)]
-        pos = x + (i - 0.5) * width
-        ax.bar(pos, vals, width, yerr=[los, his], capsize=4,
-               color=col, alpha=0.8, edgecolor="white", linewidth=0.6,
-               label=f"{ds.capitalize()} Credit" if ds == "german" else "Taiwan default")
-        # Overlay the per-model values. Averaging hides the most telling case:
-        # on Taiwan, control B is -0.290 for the linear model and +0.331 for the
-        # neural one, and the mean of 0.022 conceals that the ranking inverts.
-        for xi, key in zip(pos, ("A", "B", "C")):
-            node = c.get(key, {})
-            if key == "C":
+    rows = [
+        ("the attribution measure", "A", "SHAP against an input gradient"),
+        ("the model family", "C", "two families, one representation"),
+        ("the representation", "B", "one family, two representations"),
+    ]
+    fig, ax = plt.subplots(figsize=(9.2, 3.5))
+    h = 0.34
+    for i, (label, key, _) in enumerate(rows):
+        for j, (ds, col, name) in enumerate((("german", C_CLASSICAL, "German Credit"),
+                                             ("taiwan", C_WARN, "Taiwan default"))):
+            c = controls.get(ds, {})
+            y = i + (0.5 - j) * h
+            # Taiwan's control C does not clear its own null, so there is no
+            # value to draw. Saying so on the axis beats drawing a bar the
+            # text takes back.
+            if key == "C" and ds == "taiwan":
+                ax.text(0.012, y, "not measurable on this benchmark (Control D)",
+                        va="center", fontsize=9, color="#8a6d3b", style="italic")
                 continue
-            per = [(k, v["rho"]) for k, v in node.items()
-                   if isinstance(v, dict) and "rho" in v]
-            for k, v in per:
-                ax.plot(xi - width * 0.26, v, marker="o", color="black", markersize=5,
-                        markerfacecolor="white", markeredgewidth=1.2, zorder=4)
-                ax.annotate(k, (xi - width * 0.26, v), textcoords="offset points",
-                            xytext=(8, -3), fontsize=7.5, color="black")
-        # No value labels: Table~\ref{tab:controls} carries the numbers, and
-        # printing them here put the same six figures on the page twice.
+            node = c.get(key, {})
+            rho = node.get("rho") if key == "C" else mean_rho(node)
+            if rho is None or not np.isfinite(rho):
+                continue
+            cost = 1.0 - rho
+            ax.barh(y, cost, height=h, color=col, alpha=0.85,
+                    edgecolor="white", linewidth=0.6,
+                    label=name if i == 0 else None)
+            ax.text(cost + 0.012, y, f"{cost:.3f}", va="center", fontsize=10,
+                    fontweight="bold", color="#333333")
 
-    ax.axhline(0, color="black", linewidth=0.8)
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels, fontsize=9.5)
-    ax.set_ylabel("Spearman rank correlation of feature attributions")
-    ax.set_title("What a feature attribution actually depends on")
-    ax.set_ylim(-0.45, 1.12)
-    ax.grid(axis="y", alpha=0.3)
-    ax.legend(loc="lower left", fontsize=9)
+    ax.set_yticks(range(len(rows)))
+    ax.set_yticklabels([f"{l}\n({d})" for l, _, d in rows], fontsize=10)
+    ax.invert_yaxis()
+    ax.set_xlim(0, 1.12)
+    ax.set_xlabel("Agreement lost when that one thing changes  "
+                  "(1 \u2212 Spearman rank correlation)", fontsize=10)
+    ax.grid(axis="x", alpha=0.3)
+    ax.set_axisbelow(True)
+    for side in ("top", "right"):
+        ax.spines[side].set_visible(False)
+
+    # The paper's claim is the ratio, so draw it rather than leave it to be
+    # computed from two bar lengths.
+    g = controls.get("german", {})
+    if g.get("C", {}).get("rho") is not None:
+        fam, rep = 1 - g["C"]["rho"], 1 - mean_rho(g.get("B", {}))
+        if np.isfinite(rep) and fam > 0:
+            ax.annotate(f"{rep / fam:.0f} times the cost of changing the model",
+                        xy=(rep, 2 - h / 2), xytext=(0.42, 1.52),
+                        fontsize=10, color="#333333",
+                        arrowprops=dict(arrowstyle="->", color="#777777", lw=1.1))
+    ax.legend(loc="upper right", fontsize=9, frameon=False)
     fig.tight_layout()
     fig.savefig(out, dpi=DPI, bbox_inches="tight")
     plt.close(fig)
     print(f"  wrote {out}")
-
 
 
 def fig_weighting(rows: list[dict], out: Path, bad_rate: float, dataset: str) -> None:
