@@ -1,0 +1,294 @@
+{
+  "n_folds": 10,
+  "pcc_mean": 0.8197333333333334,
+  "pcc_std": 0.0022764494771951903,
+  "balanced_accuracy_mean": 0.6531934572376538,
+  "balanced_accuracy_std": 0.0039966850337779984,
+  "f1_macro_mean": 0.6784027491125697,
+  "f1_macro_std": 0.004551589126402903,
+  "auc_roc_mean": 0.7790055144780526,
+  "auc_roc_std": 0.003467575468499102,
+  "pr_auc_mean": 0.5561208107619584,
+  "pr_auc_std": 0.005637586716165548,
+  "ks_mean": 0.4292464752344607,
+  "ks_std": 0.008014159767658362,
+  "brier_mean": 0.1347921275730343,
+  "brier_std": 0.0009540417810828106,
+  "h_measure_mean": 0.22989490172472915,
+  "h_measure_std": 0.006774367571849487,
+  "expected_cost_at_half_mean": 0.1802666666666667,
+  "expected_cost_at_half_std": 0.0022764494771951834,
+  "expected_cost_min_mean": 0.17937999999999998,
+  "expected_cost_min_std": 0.002483017877055618,
+  "pred_positive_rate_mean": 0.11590666666666669,
+  "pred_positive_rate_std": 0.003160337534715768,
+  "per_fold": [
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11853333333333334,
+      "pcc": 0.816,
+      "balanced_accuracy": 0.6499011013063791,
+      "f1_macro": 0.673786586961751,
+      "auc_roc": 0.7735242103403442,
+      "pr_auc": 0.5459524852891604,
+      "ks": 0.41321496449151457,
+      "brier": 0.13661685053925227,
+      "h_measure": 0.21726735895214633,
+      "expected_cost_at_half": 0.184,
+      "expected_cost_min": 0.18313333333333334,
+      "cost_optimal_threshold": 0.5550451635638575,
+      "confusion_matrix": [
+        [
+          11072,
+          610
+        ],
+        [
+          2150,
+          1168
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11506666666666666,
+      "pcc": 0.8241333333333334,
+      "balanced_accuracy": 0.6588990403622457,
+      "f1_macro": 0.6856481682145985,
+      "auc_roc": 0.7835627347534664,
+      "pr_auc": 0.5677347542897881,
+      "ks": 0.44613387994636655,
+      "brier": 0.13290515696592253,
+      "h_measure": 0.24384324137037716,
+      "expected_cost_at_half": 0.17586666666666667,
+      "expected_cost_min": 0.17466666666666666,
+      "cost_optimal_threshold": 0.4623654087707417,
+      "confusion_matrix": [
+        [
+          11159,
+          523
+        ],
+        [
+          2115,
+          1203
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11213333333333333,
+      "pcc": 0.8217333333333333,
+      "balanced_accuracy": 0.6530425163765649,
+      "f1_macro": 0.67912,
+      "auc_roc": 0.7827005380373757,
+      "pr_auc": 0.5619745115012501,
+      "ks": 0.43096611129222157,
+      "brier": 0.13379627843577382,
+      "h_measure": 0.23689424052779107,
+      "expected_cost_at_half": 0.17826666666666666,
+      "expected_cost_min": 0.1764,
+      "cost_optimal_threshold": 0.48227429019316326,
+      "confusion_matrix": [
+        [
+          11163,
+          519
+        ],
+        [
+          2155,
+          1163
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11853333333333334,
+      "pcc": 0.8173333333333334,
+      "balanced_accuracy": 0.651836042095643,
+      "f1_macro": 0.6761504522736224,
+      "auc_roc": 0.7775430952592506,
+      "pr_auc": 0.5530324336242304,
+      "ks": 0.4283875317988169,
+      "brier": 0.13535686722304785,
+      "h_measure": 0.2257246778265326,
+      "expected_cost_at_half": 0.18266666666666667,
+      "expected_cost_min": 0.18193333333333334,
+      "cost_optimal_threshold": 0.4874442847937987,
+      "confusion_matrix": [
+        [
+          11082,
+          600
+        ],
+        [
+          2140,
+          1178
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11833333333333333,
+      "pcc": 0.8199333333333333,
+      "balanced_accuracy": 0.6554473381870936,
+      "f1_macro": 0.6806104177794685,
+      "auc_roc": 0.7829901599747127,
+      "pr_auc": 0.558723830302312,
+      "ks": 0.43673703349738535,
+      "brier": 0.13436911311330932,
+      "h_measure": 0.2321755618967315,
+      "expected_cost_at_half": 0.18006666666666668,
+      "expected_cost_min": 0.17913333333333334,
+      "cost_optimal_threshold": 0.5050380273302332,
+      "confusion_matrix": [
+        [
+          11103,
+          579
+        ],
+        [
+          2122,
+          1196
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11386666666666667,
+      "pcc": 0.8196,
+      "balanced_accuracy": 0.6513492109930643,
+      "f1_macro": 0.6766234974305629,
+      "auc_roc": 0.7736331604063851,
+      "pr_auc": 0.5528098658318051,
+      "ks": 0.4244606855634532,
+      "brier": 0.1354455665965772,
+      "h_measure": 0.22597288500415247,
+      "expected_cost_at_half": 0.1804,
+      "expected_cost_min": 0.18,
+      "cost_optimal_threshold": 0.4941955960272791,
+      "confusion_matrix": [
+        [
+          11134,
+          548
+        ],
+        [
+          2158,
+          1160
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11526666666666667,
+      "pcc": 0.8207333333333333,
+      "balanced_accuracy": 0.6541267797972368,
+      "f1_macro": 0.679722824422099,
+      "auc_roc": 0.7801723444021235,
+      "pr_auc": 0.5577916809673152,
+      "ks": 0.42788460198887146,
+      "brier": 0.1344844638496889,
+      "h_measure": 0.23135912390745828,
+      "expected_cost_at_half": 0.17926666666666666,
+      "expected_cost_min": 0.17833333333333334,
+      "cost_optimal_threshold": 0.48702019850611744,
+      "confusion_matrix": [
+        [
+          11132,
+          550
+        ],
+        [
+          2139,
+          1179
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11653333333333334,
+      "pcc": 0.8196,
+      "balanced_accuracy": 0.6535070569612513,
+      "f1_macro": 0.6786621299258863,
+      "auc_roc": 0.7788021612308246,
+      "pr_auc": 0.5540195263776013,
+      "ks": 0.4310931982032604,
+      "brier": 0.13491566522339,
+      "h_measure": 0.2291096694974517,
+      "expected_cost_at_half": 0.1804,
+      "expected_cost_min": 0.1802,
+      "cost_optimal_threshold": 0.49552463012256837,
+      "confusion_matrix": [
+        [
+          11114,
+          568
+        ],
+        [
+          2138,
+          1180
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.10993333333333333,
+      "pcc": 0.8172666666666667,
+      "balanced_accuracy": 0.6447802418087765,
+      "f1_macro": 0.6693311878853435,
+      "auc_roc": 0.780447854171304,
+      "pr_auc": 0.5528415646838669,
+      "ks": 0.42697517981791744,
+      "brier": 0.1352221342845797,
+      "h_measure": 0.22605350269317115,
+      "expected_cost_at_half": 0.18273333333333333,
+      "expected_cost_min": 0.18186666666666668,
+      "cost_optimal_threshold": 0.42897220159470734,
+      "confusion_matrix": [
+        [
+          11146,
+          536
+        ],
+        [
+          2205,
+          1113
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.12086666666666666,
+      "pcc": 0.821,
+      "balanced_accuracy": 0.6590452444882825,
+      "f1_macro": 0.6843722262323646,
+      "auc_roc": 0.776678886204739,
+      "pr_auc": 0.5563274547522543,
+      "ks": 0.42661156574479897,
+      "brier": 0.13480917949880145,
+      "h_measure": 0.23054875557147925,
+      "expected_cost_at_half": 0.179,
+      "expected_cost_min": 0.17813333333333334,
+      "cost_optimal_threshold": 0.4750276424566831,
+      "confusion_matrix": [
+        [
+          11092,
+          590
+        ],
+        [
+          2095,
+          1223
+        ]
+      ]
+    }
+  ],
+  "dataset": "taiwan",
+  "model": "rf",
+  "class_weight": null,
+  "n_params_median": 138913,
+  "protocol": "5x2",
+  "elapsed_s": 171.8,
+  "drop_protected": true
+}

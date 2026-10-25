@@ -1,0 +1,40 @@
+{
+  "dataset": "german",
+  "model": "mlp",
+  "class_weight": "balanced",
+  "repeat": 2,
+  "half": 1,
+  "seed": 2,
+  "n_params": 353,
+  "best_params": {
+    "clf__estimator__alpha": "0.01",
+    "clf__estimator__hidden_layer_sizes": "(16,)"
+  },
+  "drop_protected": false,
+  "metrics": {
+    "n_samples": 500,
+    "bad_rate": 0.3,
+    "pred_positive_rate": 0.326,
+    "pcc": 0.71,
+    "balanced_accuracy": 0.6671428571428571,
+    "f1_macro": 0.6628393115411266,
+    "auc_roc": 0.7096190476190475,
+    "pr_auc": 0.5225432712187608,
+    "ks": 0.3476190476190476,
+    "brier": 0.27198850447449435,
+    "h_measure": 0.159555339681982,
+    "expected_cost_at_half": 0.818,
+    "expected_cost_min": 0.64,
+    "cost_optimal_threshold": 3.050354166751951e-16,
+    "confusion_matrix": [
+      [
+        271,
+        79
+      ],
+      [
+        66,
+        84
+      ]
+    ]
+  }
+}

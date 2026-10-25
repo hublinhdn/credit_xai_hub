@@ -1,0 +1,40 @@
+{
+  "dataset": "taiwan",
+  "model": "mlp",
+  "class_weight": null,
+  "repeat": 1,
+  "half": 0,
+  "seed": 1,
+  "n_params": 1409,
+  "best_params": {
+    "clf__alpha": "30.0",
+    "clf__hidden_layer_sizes": "(64,)"
+  },
+  "drop_protected": true,
+  "metrics": {
+    "n_samples": 15000,
+    "bad_rate": 0.2212,
+    "pred_positive_rate": 0.11973333333333333,
+    "pcc": 0.8222666666666667,
+    "balanced_accuracy": 0.6599663537016036,
+    "f1_macro": 0.6857787270611007,
+    "auc_roc": 0.780340271463421,
+    "pr_auc": 0.5549705929433357,
+    "ks": 0.4286687947919443,
+    "brier": 0.13409134997090205,
+    "h_measure": 0.23389845125201414,
+    "expected_cost_at_half": 0.17773333333333333,
+    "expected_cost_min": 0.1772,
+    "cost_optimal_threshold": 0.5034219732127091,
+    "confusion_matrix": [
+      [
+        11110,
+        572
+      ],
+      [
+        2094,
+        1224
+      ]
+    ]
+  }
+}

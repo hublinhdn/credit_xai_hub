@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this code or these results, please cite the paper."
+title: "Representation, Not Model Family, Determines the Explanation: code and per-fold results"
+abstract: >-
+  Code and per-fold artefacts for a controlled study of what governs a feature
+  attribution in credit risk models. Four controls separate the attribution
+  measure, the feature representation and the model family from one another on
+  two public benchmarks.
+authors:
+  - family-names: "Do"
+    given-names: "Nhat-Linh"
+    affiliation: "Banking University of Ho Chi Minh City"
+  - family-names: "Le"
+    given-names: "Quang-Thai"
+    affiliation: "Banking University of Ho Chi Minh City"
+  - family-names: "Tran-Huynh"
+    given-names: "Minh-Tan"
+    affiliation: "Banking University of Ho Chi Minh City"
+license: MIT
+repository-code: "https://github.com/hublinhdn/credit_xai_hub"
+keywords:
+  - explainable machine learning
+  - credit risk
+  - feature attribution
+  - SHAP
+  - reproducibility

@@ -1,0 +1,16 @@
+{
+  "german": {
+    "n_features": 20,
+    "n_correlated": 0,
+    "spearman": 0.17483089138745314,
+    "p_value": 0.4609821128841623,
+    "verdict": "not supported"
+  },
+  "taiwan": {
+    "n_features": 23,
+    "n_correlated": 11,
+    "spearman": -0.021760643681447207,
+    "p_value": 0.9214940999000872,
+    "verdict": "not supported"
+  }
+}

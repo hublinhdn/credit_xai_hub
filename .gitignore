@@ -1,0 +1,14 @@
+# The benchmarks are downloaded and verified by scripts/10_prepare_credit.py.
+data/
+*.zip
+
+# Environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+
+# Regenerated from results/ by scripts/16_paper_figures.py
+figures/
+tables/
+
+.DS_Store

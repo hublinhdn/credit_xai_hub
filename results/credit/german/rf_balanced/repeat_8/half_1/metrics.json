@@ -1,0 +1,40 @@
+{
+  "dataset": "german",
+  "model": "rf",
+  "class_weight": "balanced",
+  "repeat": 8,
+  "half": 1,
+  "seed": 8,
+  "n_params": 104192,
+  "best_params": {
+    "clf__max_depth": "16",
+    "clf__min_samples_leaf": "1"
+  },
+  "drop_protected": false,
+  "metrics": {
+    "n_samples": 500,
+    "bad_rate": 0.3,
+    "pred_positive_rate": 0.276,
+    "pcc": 0.748,
+    "balanced_accuracy": 0.6885714285714286,
+    "f1_macro": 0.6927668539325842,
+    "auc_roc": 0.7681238095238095,
+    "pr_auc": 0.5981574205653675,
+    "ks": 0.4066666666666667,
+    "brier": 0.17353786222729964,
+    "h_measure": 0.23925088405466877,
+    "expected_cost_at_half": 0.804,
+    "expected_cost_min": 0.566,
+    "cost_optimal_threshold": 0.16266666666666668,
+    "confusion_matrix": [
+      [
+        293,
+        57
+      ],
+      [
+        69,
+        81
+      ]
+    ]
+  }
+}
