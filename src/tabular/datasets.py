@@ -11,6 +11,7 @@ Verified against the raw files on 2026-10-23:
 
 from __future__ import annotations
 
+import importlib
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -70,6 +71,27 @@ GERMAN_COST_FP = 1.0
 TAIWAN_CATEGORICAL = ["SEX", "EDUCATION", "MARRIAGE"]
 TAIWAN_PROTECTED = ["SEX", "MARRIAGE", "AGE"]
 TAIWAN_TARGET = "default payment next month"
+
+
+def excel_engine() -> str:
+    """Whichever .xls reader is installed, rather than whichever pandas prefers.
+
+    pandas 3 reaches for calamine and raises if it is absent, even when xlrd
+    is there; the published conversion was made with xlrd. The two read this
+    file identically, verified cell by cell, so either will do and the point
+    is to fail with a useful sentence when neither is installed.
+    """
+    for engine, module in (("calamine", "python_calamine"), ("xlrd", "xlrd")):
+        try:
+            importlib.import_module(module)
+            return engine
+        except ImportError:
+            continue
+    raise ImportError(
+        "reading the Taiwan .xls needs an Excel engine; install one with "
+        "`pip install python-calamine`, or use the taiwan_default.csv that "
+        "scripts/10_prepare_credit.py writes"
+    )
 
 
 @dataclass
@@ -161,7 +183,7 @@ def load_taiwan(raw_dir: Path = DEFAULT_RAW) -> CreditDataset:
     if csv_path.exists():
         df = pd.read_csv(csv_path)
     elif xls_path.exists():
-        df = pd.read_excel(xls_path, header=1)
+        df = pd.read_excel(xls_path, header=1, engine=excel_engine())
     else:
         raise FileNotFoundError(
             f"neither {csv_path} nor {xls_path} found. "

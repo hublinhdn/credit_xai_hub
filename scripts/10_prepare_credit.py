@@ -25,7 +25,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from src.tabular.datasets import DEFAULT_RAW, load_german, load_taiwan  # noqa: E402
+from src.tabular.datasets import DEFAULT_RAW, excel_engine, load_german, load_taiwan  # noqa: E402
 
 SOURCES = {
     "german.zip": {
@@ -93,7 +93,7 @@ def download(raw_dir: Path) -> None:
         try:
             import pandas as pd
 
-            pd.read_excel(xls, header=1).to_csv(csv, index=False)
+            pd.read_excel(xls, header=1, engine=excel_engine()).to_csv(csv, index=False)
             print(f"  wrote {csv.name} for xlrd-free loading")
         except ImportError:
             print("  note: xlrd missing, skipping CSV export (loader will read the .xls)")

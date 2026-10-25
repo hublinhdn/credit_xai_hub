@@ -7,3 +7,7 @@ scipy==1.18.1
 scikit-learn==1.9.1
 shap==0.54.1
 matplotlib==3.10.9
+
+# The Taiwan benchmark ships as .xls and pandas needs a reader for it. Only
+# scripts/10 touches it, once, before writing the CSV everything else loads.
+python-calamine==0.5.3

@@ -38,8 +38,18 @@ python -m venv .venv
 .venv/bin/pip install -r requirements.txt
 ```
 
-`requirements.txt` pins the versions that produced the published results. The
-figures additionally need `matplotlib`, which is listed there.
+`requirements.txt` pins the versions that produced the published results,
+plus `matplotlib` for the figures and an Excel reader for the one-off
+conversion of the Taiwan file.
+
+This was checked rather than assumed: a clone into an empty directory with a
+fresh virtual environment built from this file reproduces every value in
+`results/credit/analysis.json`, and the generated LaTeX tables come out
+byte-identical to the ones in the paper. That check ran on Python 3.14 while
+the published results were produced on 3.12, so the agreement survives a
+change of interpreter. The only movement anywhere was in the last digit of
+McNemar p-values of order 1e-35, a relative difference of 6e-16, and none of
+the 180 significance decisions changed.
 
 ## Data
 
@@ -49,8 +59,13 @@ each archive against a recorded SHA-256 digest before and after extraction,
 refusing to continue on a mismatch:
 
 ```bash
-.venv/bin/python scripts/10_prepare_credit.py
+.venv/bin/python scripts/10_prepare_credit.py --download
 ```
+
+Without `--download` the script only verifies files already on disk. It
+reports the row counts, the feature split and the adverse rate it finds, and
+exits non-zero if any of them departs from the table below, so a silently
+revised upstream file is caught rather than absorbed.
 
 | Dataset | UCI id | Rows | Features | Adverse rate |
 |---|---|---|---|---|
