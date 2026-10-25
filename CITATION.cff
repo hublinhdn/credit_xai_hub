@@ -13,9 +13,6 @@ authors:
   - family-names: "Le"
     given-names: "Quang-Thai"
     affiliation: "Banking University of Ho Chi Minh City"
-  - family-names: "Tran-Huynh"
-    given-names: "Minh-Tan"
-    affiliation: "Banking University of Ho Chi Minh City"
 license: MIT
 repository-code: "https://github.com/hublinhdn/credit_xai_hub"
 keywords:
