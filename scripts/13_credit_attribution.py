@@ -128,8 +128,13 @@ def main() -> int:
     p.add_argument("--tolerance", type=float, default=2e-3,
                    help="how far a refit may drift from the stored AUC before it "
                         "counts as a mismatch rather than solver noise")
+    p.add_argument("--woe-all", action="store_true",
+                   help="match a grid trained with --woe-all")
     p.add_argument("--skip-existing", action="store_true")
     args = p.parse_args()
+    if args.woe_all:
+        WOE_MODELS.update(_mod.ALL_MODELS)
+
 
     cw = None if args.class_weight == "none" else "balanced"
     mismatches = 0

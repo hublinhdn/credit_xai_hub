@@ -1,0 +1,294 @@
+{
+  "n_folds": 10,
+  "pcc_mean": 0.8206266666666666,
+  "pcc_std": 0.0023050090383047762,
+  "balanced_accuracy_mean": 0.6583092549301518,
+  "balanced_accuracy_std": 0.004865603301910175,
+  "f1_macro_mean": 0.6835070173294049,
+  "f1_macro_std": 0.005389464725469127,
+  "auc_roc_mean": 0.7811868699768292,
+  "auc_roc_std": 0.003679731442254716,
+  "pr_auc_mean": 0.557540809370313,
+  "pr_auc_std": 0.006541202180629201,
+  "ks_mean": 0.42812379162947717,
+  "ks_std": 0.007943242331829107,
+  "brier_mean": 0.13423874980060563,
+  "brier_std": 0.0010939554011931004,
+  "h_measure_mean": 0.23156678715135634,
+  "h_measure_std": 0.007156489342347802,
+  "expected_cost_at_half_mean": 0.17937333333333333,
+  "expected_cost_at_half_std": 0.0023050090383047676,
+  "expected_cost_min_mean": 0.17842666666666668,
+  "expected_cost_min_std": 0.001929928035503455,
+  "pred_positive_rate_mean": 0.12062666666666666,
+  "pred_positive_rate_std": 0.0027960607210065318,
+  "per_fold": [
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.12106666666666667,
+      "pcc": 0.8182666666666667,
+      "balanced_accuracy": 0.6552404543179056,
+      "f1_macro": 0.6797011960735957,
+      "auc_roc": 0.7738594839807027,
+      "pr_auc": 0.5451688508744424,
+      "ks": 0.41248138973948884,
+      "brier": 0.1364133960334878,
+      "h_measure": 0.21816776182306197,
+      "expected_cost_at_half": 0.18173333333333333,
+      "expected_cost_min": 0.18126666666666666,
+      "cost_optimal_threshold": 0.502810185288624,
+      "confusion_matrix": [
+        [
+          11070,
+          612
+        ],
+        [
+          2114,
+          1204
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.1226,
+      "pcc": 0.8243333333333334,
+      "balanced_accuracy": 0.6652851963407638,
+      "f1_macro": 0.6914889613813726,
+      "auc_roc": 0.7874529332102814,
+      "pr_auc": 0.570205910765156,
+      "ks": 0.44519411790383684,
+      "brier": 0.13209556200410436,
+      "h_measure": 0.24632985305378718,
+      "expected_cost_at_half": 0.17566666666666667,
+      "expected_cost_min": 0.1754,
+      "cost_optimal_threshold": 0.4972609642552212,
+      "confusion_matrix": [
+        [
+          11104,
+          578
+        ],
+        [
+          2057,
+          1261
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11706666666666667,
+      "pcc": 0.8228,
+      "balanced_accuracy": 0.6585824840491221,
+      "f1_macro": 0.6847586475201914,
+      "auc_roc": 0.7827335997256615,
+      "pr_auc": 0.5627969349751832,
+      "ks": 0.43059522184173543,
+      "brier": 0.13329638851061848,
+      "h_measure": 0.2375145053687311,
+      "expected_cost_at_half": 0.1772,
+      "expected_cost_min": 0.1766,
+      "cost_optimal_threshold": 0.5131810986009034,
+      "confusion_matrix": [
+        [
+          11134,
+          548
+        ],
+        [
+          2110,
+          1208
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.1216,
+      "pcc": 0.8192,
+      "balanced_accuracy": 0.6570264820640277,
+      "f1_macro": 0.6817395384547357,
+      "auc_roc": 0.7772217531925749,
+      "pr_auc": 0.5526444556107739,
+      "ks": 0.42389521846719874,
+      "brier": 0.1351716317153144,
+      "h_measure": 0.22596085155923518,
+      "expected_cost_at_half": 0.1808,
+      "expected_cost_min": 0.1796,
+      "cost_optimal_threshold": 0.5736453663683062,
+      "confusion_matrix": [
+        [
+          11073,
+          609
+        ],
+        [
+          2103,
+          1215
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.12293333333333334,
+      "pcc": 0.8233333333333334,
+      "balanced_accuracy": 0.6641037214948393,
+      "f1_macro": 0.6899708639687616,
+      "auc_roc": 0.7835694554478078,
+      "pr_auc": 0.5635271366568202,
+      "ks": 0.4278685032815048,
+      "brier": 0.13363040247773095,
+      "h_measure": 0.2360467062349647,
+      "expected_cost_at_half": 0.17666666666666667,
+      "expected_cost_min": 0.17646666666666666,
+      "cost_optimal_threshold": 0.49851574167842977,
+      "confusion_matrix": [
+        [
+          11094,
+          588
+        ],
+        [
+          2062,
+          1256
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.1194,
+      "pcc": 0.8199333333333333,
+      "balanced_accuracy": 0.6563104765743685,
+      "f1_macro": 0.681405997677767,
+      "auc_roc": 0.7784807417665174,
+      "pr_auc": 0.5562236111160201,
+      "ks": 0.42707486796738037,
+      "brier": 0.134706786111841,
+      "h_measure": 0.22830083372458998,
+      "expected_cost_at_half": 0.18006666666666668,
+      "expected_cost_min": 0.17833333333333334,
+      "cost_optimal_threshold": 0.543807435804127,
+      "confusion_matrix": [
+        [
+          11095,
+          587
+        ],
+        [
+          2114,
+          1204
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.12106666666666667,
+      "pcc": 0.8212,
+      "balanced_accuracy": 0.6594973240542861,
+      "f1_macro": 0.6848710960636036,
+      "auc_roc": 0.7808632214607328,
+      "pr_auc": 0.5559869239109069,
+      "ks": 0.42345420676250967,
+      "brier": 0.1342210196356034,
+      "h_measure": 0.23155008623168227,
+      "expected_cost_at_half": 0.1788,
+      "expected_cost_min": 0.17753333333333332,
+      "cost_optimal_threshold": 0.5475005073711858,
+      "confusion_matrix": [
+        [
+          11092,
+          590
+        ],
+        [
+          2092,
+          1226
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.11986666666666666,
+      "pcc": 0.8188,
+      "balanced_accuracy": 0.6550433999479268,
+      "f1_macro": 0.6797493772197603,
+      "auc_roc": 0.7843656061849583,
+      "pr_auc": 0.555392840134408,
+      "ks": 0.43503227326441224,
+      "brier": 0.13415695203807812,
+      "h_measure": 0.2309254621093373,
+      "expected_cost_at_half": 0.1812,
+      "expected_cost_min": 0.1804,
+      "cost_optimal_threshold": 0.52323466881211,
+      "confusion_matrix": [
+        [
+          11083,
+          599
+        ],
+        [
+          2119,
+          1199
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.1152,
+      "pcc": 0.8168,
+      "balanced_accuracy": 0.6483647583197036,
+      "f1_macro": 0.6726438001451803,
+      "auc_roc": 0.7822428084442673,
+      "pr_auc": 0.5538246858390004,
+      "ks": 0.4278042632473012,
+      "brier": 0.13471295320654653,
+      "h_measure": 0.227774698513731,
+      "expected_cost_at_half": 0.1832,
+      "expected_cost_min": 0.18093333333333333,
+      "cost_optimal_threshold": 0.5638749340347036,
+      "confusion_matrix": [
+        [
+          11103,
+          579
+        ],
+        [
+          2169,
+          1149
+        ]
+      ]
+    },
+    {
+      "n_samples": 15000,
+      "bad_rate": 0.2212,
+      "pred_positive_rate": 0.12546666666666667,
+      "pcc": 0.8216,
+      "balanced_accuracy": 0.663638252138574,
+      "f1_macro": 0.6887406947890818,
+      "auc_roc": 0.7810790963547882,
+      "pr_auc": 0.5596367438204193,
+      "ks": 0.4278378538194028,
+      "brier": 0.13398240627273142,
+      "h_measure": 0.23309711289444268,
+      "expected_cost_at_half": 0.1784,
+      "expected_cost_min": 0.17773333333333333,
+      "cost_optimal_threshold": 0.5176370962613377,
+      "confusion_matrix": [
+        [
+          11062,
+          620
+        ],
+        [
+          2056,
+          1262
+        ]
+      ]
+    }
+  ],
+  "dataset": "taiwan",
+  "model": "hgb",
+  "class_weight": null,
+  "n_params_median": 6100,
+  "protocol": "5x2",
+  "elapsed_s": 20.2,
+  "drop_protected": false
+}

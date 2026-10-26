@@ -1,0 +1,40 @@
+{
+  "dataset": "german",
+  "model": "hgb",
+  "class_weight": null,
+  "repeat": 1,
+  "half": 1,
+  "seed": 1,
+  "n_params": 3704,
+  "best_params": {
+    "clf__learning_rate": "0.05",
+    "clf__max_iter": "100"
+  },
+  "drop_protected": false,
+  "metrics": {
+    "n_samples": 500,
+    "bad_rate": 0.3,
+    "pred_positive_rate": 0.202,
+    "pcc": 0.742,
+    "balanced_accuracy": 0.6461904761904762,
+    "f1_macro": 0.6569130686865357,
+    "auc_roc": 0.7551428571428571,
+    "pr_auc": 0.5829322365160647,
+    "ks": 0.3914285714285714,
+    "brier": 0.18175067589481647,
+    "h_measure": 0.2291989560568094,
+    "expected_cost_at_half": 0.97,
+    "expected_cost_min": 0.558,
+    "cost_optimal_threshold": 0.028449990835404986,
+    "confusion_matrix": [
+      [
+        310,
+        40
+      ],
+      [
+        89,
+        61
+      ]
+    ]
+  }
+}

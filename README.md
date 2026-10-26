@@ -161,3 +161,27 @@ review and a fair lending assessment.
 ## Licence and citation
 
 MIT, see `LICENSE`. Citation metadata is in `CITATION.cff`.
+
+## The second grid
+
+`results/credit_woe/` is the same grid refitted with weight of evidence codes
+for every model, trees included, produced with `--woe-all`:
+
+```bash
+.venv/bin/python scripts/11_train_credit_classical.py --woe-all \
+    --datasets german taiwan --models lr_l1 lr_l2 rf sgb hgb mlp \
+    --n-jobs 5 --out-dir results/credit_woe
+.venv/bin/python scripts/13_credit_attribution.py --woe-all \
+    --datasets german taiwan --models lr_l1 lr_l2 rf sgb hgb mlp \
+    --n-jobs 5 --out-dir results/credit_woe
+.venv/bin/python scripts/14_credit_analysis.py --datasets german taiwan \
+    --classical-dir results/credit_woe --out results/credit/analysis_woe.json
+```
+
+It exists for one comparison. In the standard treatment a linear model gets
+weight of evidence and a tree model gets ordinal codes, so comparing their
+attributions varies the encoding as well as the model family. This grid takes
+the encoding out of that comparison. It is kept separate from
+`results/credit/`, which is where every other number in the paper comes from,
+and `--woe-all` refuses to write into the default output directory so the two
+cannot be mixed by accident.

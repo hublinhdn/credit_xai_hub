@@ -60,6 +60,12 @@ ALL_MODELS = ("majority", "lr_l1", "lr_l2", "rf", "sgb", "hgb", "mlp")
 ALL_DATASETS = ("german", "taiwan")
 # Linear and neural models need numeric inputs, trees take the mixed coding.
 WOE_MODELS = {"lr_l1", "lr_l2", "mlp"}
+# The standard treatment: weight of evidence for the linear and neural
+# families, ordinal codes for the trees. That is what the literature does and
+# what this grid does, but it means a linear-against-tree comparison varies
+# the encoding as well as the family. `--woe-all` puts every model on weight
+# of evidence so the families can be compared on identical inputs; it is
+# mutated in place because scripts/13 holds a reference to this same set.
 # GradientBoostingClassifier and MLPClassifier take no class_weight argument;
 # they are balanced through sample_weight instead (see BalancedWeights).
 SAMPLE_WEIGHT_MODELS = {"sgb", "mlp"}
@@ -260,8 +266,18 @@ def main() -> int:
     p.add_argument("--n-repeats", type=int, default=None, help="override N of the N x 2 protocol")
     p.add_argument("--max-rows", type=int, default=None, help="stratified subsample, for smoke tests")
     p.add_argument("--gate", action="store_true", help="check the result against the published value")
+    p.add_argument("--woe-all", action="store_true",
+                   help="code nominal attributes by weight of evidence for every "
+                        "model, trees included, so a cross-family comparison does "
+                        "not also change the encoding. Use a separate --out-dir.")
     p.add_argument("--skip-existing", action="store_true")
     args = p.parse_args()
+    if args.woe_all:
+        WOE_MODELS.update(ALL_MODELS)
+        print(f"weight of evidence for every model: {sorted(WOE_MODELS)}")
+        if args.out_dir == DEFAULT_OUT:
+            raise SystemExit("--woe-all writes a different grid; pass --out-dir")
+
 
     weights = {"none": [None], "balanced": ["balanced"], "both": [None, "balanced"]}[args.class_weight]
     gate_failures = 0

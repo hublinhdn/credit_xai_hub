@@ -273,12 +273,59 @@ def table_controls(controls: dict[str, dict], nulls: dict[str, dict], out: Path)
     print(f"  wrote {out}")
 
 
+def table_woe(mixed: dict, woe: dict, out: Path) -> None:
+    """The same family pairs under the standard encoding and under one encoding.
+
+    Linear and neural models already receive weight of evidence in the main
+    grid, so the linear-against-neural row never crossed the encoding
+    boundary. It is the internal control: it should not move.
+    """
+    pairs = ("linear vs tree", "neural vs tree", "linear vs neural")
+    lines = []
+    for ds, label, nominal in (("german", "German Credit", "13 of 20"),
+                               ("taiwan", "Taiwan default", "3 of 23")):
+        a = ((mixed.get(ds) or {}).get("attribution") or {}).get("between_unrestricted") or {}
+        b = ((woe.get(ds) or {}).get("attribution") or {}).get("between_unrestricted") or {}
+        if not a or not b:
+            continue
+        lines.append(f"\\multicolumn{{4}}{{l}}{{\\emph{{{label}}}, {nominal} "
+                     f"attributes nominal}} \\\\")
+        for pair in pairs:
+            if pair not in a or pair not in b:
+                continue
+            d = b[pair]["rho"] - a[pair]["rho"]
+            note = " (control)" if pair == "linear vs neural" else ""
+            lines.append(f"\\quad {pair}{note} & {a[pair]['rho']:.3f} & "
+                         f"{b[pair]['rho']:.3f} & {d:+.3f} \\\\")
+        w = (mixed[ds]["attribution"].get("mean_within"),
+             woe[ds]["attribution"].get("mean_within"))
+        if all(v is not None for v in w):
+            lines.append(f"\\quad within-model, for scale & {w[0]:.3f} & {w[1]:.3f} & "
+                         f"{w[1]-w[0]:+.3f} \\\\")
+        lines.append("\\midrule")
+    if lines and lines[-1] == "\\midrule":
+        lines.pop()
+    out.write_text(tex_table(
+        lines, "Family pair & Standard & One encoding & Change",
+        "Between-family attribution agreement when every model is given weight "
+        "of evidence codes, against the standard treatment that gives them only "
+        "to the linear and neural families. The restriction of "
+        "Section~\\ref{sec:controls} is lifted here so the same pairs appear in "
+        "both columns. Linear against neural never crossed the encoding "
+        "boundary and serves as the control.",
+        "tab:woe", "lccc"))
+    print(f"  wrote {out}")
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--classical-dir", type=Path, default=Path("results/credit"))
     p.add_argument("--out-dir", type=Path, default=Path("report-credit/figures"))
     p.add_argument("--tex-dir", type=Path, default=Path("report-credit/tables"))
     p.add_argument("--analysis", type=Path, default=Path("results/credit/analysis.json"))
+    p.add_argument("--analysis-woe", type=Path,
+                   default=Path("results/credit/analysis_woe.json"),
+                   help="the grid refitted with weight of evidence for every model")
     args = p.parse_args()
     args.out_dir.mkdir(parents=True, exist_ok=True)
     args.tex_dir.mkdir(parents=True, exist_ok=True)
@@ -311,6 +358,10 @@ def main() -> int:
         table_discrimination(german, mcn, args.tex_dir / "tab_discrimination.tex")
     if controls:
         table_controls(controls, nulls, args.tex_dir / "tab_controls.tex")
+    if args.analysis.exists() and args.analysis_woe.exists():
+        table_woe(json.loads(args.analysis.read_text()),
+                  json.loads(args.analysis_woe.read_text()),
+                  args.tex_dir / "tab_woe.tex")
     return 0
 
 
