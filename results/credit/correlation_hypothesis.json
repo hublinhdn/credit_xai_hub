@@ -9,8 +9,8 @@
   "taiwan": {
     "n_features": 23,
     "n_correlated": 11,
-    "spearman": -0.021760643681447207,
-    "p_value": 0.9214940999000872,
+    "spearman": -0.0316518453548323,
+    "p_value": 0.8860002078630542,
     "verdict": "not supported"
   }
 }
