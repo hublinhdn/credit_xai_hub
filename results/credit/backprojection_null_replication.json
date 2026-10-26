@@ -1,0 +1,31 @@
+{
+  "observed_component_space": {
+    "rho": 0.9690476190476192,
+    "lo": 0.9571428571428573,
+    "hi": 0.980952380952381,
+    "n": 10
+  },
+  "observed_back_projected": {
+    "rho": 0.9616541353383458,
+    "lo": 0.9342819548872181,
+    "hi": 0.9825601503759398,
+    "n": 10
+  },
+  "permutation_null": {
+    "rho": 0.27017218045112784,
+    "lo": 0.25550827067669174,
+    "hi": 0.28475749999999994,
+    "n": 2000
+  },
+  "null_exceeds_observed_fraction": 0.0015,
+  "run": {
+    "dataset": "german",
+    "n_rows": 1000,
+    "adverse_rate": 0.3,
+    "n_folds": 10,
+    "n_components": 8,
+    "max_rows": null,
+    "n_permutations": 200,
+    "seed": 0
+  }
+}

@@ -104,6 +104,22 @@ To retrain from scratch instead, in order:
 weight-of-evidence coder and the label convention; run it first if something
 looks wrong.
 
+Two scripts check rather than compute. `scripts/20_sanity_check.py` is static:
+it verifies imports, documented flags, LaTeX inputs and this tree against the
+code that produced the results, and needs no data. `scripts/17_check_manuscript.py`
+compares the numbers in the paper against the stored artefacts; the manuscript
+source is not part of this repository, so give it a path:
+
+```bash
+.venv/bin/python scripts/20_sanity_check.py
+.venv/bin/python scripts/17_check_manuscript.py --tex /path/to/main.tex --tables tables
+```
+
+The Taiwan controls above run on a stratified 4,000-row subsample, which is
+what the published Taiwan control figures were produced from. Dropping
+`--max-rows` reproduces them on the full 30,000 rows and takes considerably
+longer.
+
 **Bound the parallelism.** Several of these scripts fit a grid per fold.
 Running them concurrently with `--n-jobs -1` will oversubscribe the machine
 badly; keep `--n-jobs` times `OMP_NUM_THREADS` near the core count. The

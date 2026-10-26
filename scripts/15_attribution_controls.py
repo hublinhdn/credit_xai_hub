@@ -35,6 +35,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from itertools import combinations
 from pathlib import Path
 
 import numpy as np
@@ -135,6 +136,12 @@ def main() -> int:
     c_vals: list[float] = []
     c_auc: dict[str, list[float]] = {"lr": [], "mlp": []}
     c_mcnemar: list[float] = []
+    # Control C is a same-fold agreement between two families in the reduced
+    # space. The within-model stability it invites comparison with is measured
+    # elsewhere: across folds, on the original features, with hyperparameters
+    # chosen per fold. Keeping each fold's back-projected vector lets the same
+    # baseline be measured here, where the control is.
+    c_series: dict[str, list[np.ndarray]] = {"lr": [], "mlp": []}
 
     for n, (r, half, tr, te) in enumerate(folds, 1):
         pca_back: dict[str, np.ndarray] = {}
@@ -165,6 +172,7 @@ def main() -> int:
             on_pca = clone(proto).fit(P_tr, ds.y[tr])
             shap_pca = shap_values(on_pca, P_tr, P_te, linear, args.seed)
             pca_back[key] = enc.project_attribution_back(shap_pca)
+            c_series[key].append(pca_back[key])
             b_vals[key].append(rho(shap_raw, pca_back[key]))
 
             proba = on_pca.predict_proba(P_te)[:, 1]
@@ -224,6 +232,11 @@ def main() -> int:
         print("  WARNING: the pair is separable on most folds, so this control "
               "measures the accuracy gap and not the model family")
     out["C"] = report("linear vs neural, same components, both projected back", c_vals)
+    out["C_baseline"] = {
+        k: report(f"{k}: itself across folds, same space, same hyperparameters",
+                  [rho(v[a], v[b]) for a, b in combinations(range(len(v)), 2)])
+        for k, v in c_series.items()
+    }
 
     print(f"\n{'=' * 78}\nverdict\n{'=' * 78}")
     a_mean = float(np.mean([v["rho"] for v in out["A"].values() if v]))
@@ -239,6 +252,10 @@ def main() -> int:
         print("  -> the model family matters at least as much as the representation here")
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
+    out["run"] = {"dataset": args.dataset, "n_rows": int(len(ds.y)),
+                  "adverse_rate": float(ds.y.mean()), "n_folds": len(folds),
+                  "n_components": args.n_components, "max_rows": args.max_rows,
+                  "seed": args.seed}
     args.out.write_text(json.dumps(out, indent=2))
     print(f"\nwrote {args.out}")
     return 0

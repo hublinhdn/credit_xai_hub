@@ -116,7 +116,7 @@ def fig_controls(controls: dict[str, dict], out: Path) -> None:
         fam, rep = 1 - g["C"]["rho"], 1 - mean_rho(g.get("B", {}))
         if np.isfinite(rep) and fam > 0:
             ax.annotate(f"{rep / fam:.0f} times the cost of changing the model",
-                        xy=(rep, 2 - h / 2), xytext=(0.42, 1.52),
+                        xy=(rep, 2 + h / 2), xytext=(0.42, 1.52),
                         fontsize=10, color="#333333",
                         arrowprops=dict(arrowstyle="->", color="#777777", lw=1.1))
     ax.legend(loc="upper right", fontsize=9, frameon=False)
@@ -268,7 +268,12 @@ def table_controls(controls: dict[str, dict], nulls: dict[str, dict], out: Path)
         "both its attributions pass through, by comparing them before that "
         "matrix is applied and against a null that reassigns each model's "
         "component magnitudes at random. C is interpretable only where it "
-        "clears that null. Spearman rank correlation throughout.",
+        "clears that null, which is decided by the fraction of draws reaching "
+        "it rather than by the bracket on the null row: that bracket is a "
+        "confidence interval for the null's mean, not the spread of the null. "
+        "Spearman rank correlation throughout. The Taiwan column comes from a "
+        "stratified 4,000-row subsample, so its agreements are comparable with "
+        "German Credit and its absolute accuracies are not.",
         "tab:controls", "lcc"))
     print(f"  wrote {out}")
 

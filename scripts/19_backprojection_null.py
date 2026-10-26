@@ -144,6 +144,10 @@ def main() -> int:
               f"{obs:.3f}; control C is measuring the shared map")
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
+    out["run"] = {"dataset": args.dataset, "n_rows": int(len(ds.y)),
+                  "adverse_rate": float(ds.y.mean()), "n_folds": len(folds),
+                  "n_components": args.n_components, "max_rows": args.max_rows,
+                  "n_permutations": args.n_permutations, "seed": args.seed}
     args.out.write_text(json.dumps(out, indent=2))
     print(f"\nwrote {args.out}")
     return 0
