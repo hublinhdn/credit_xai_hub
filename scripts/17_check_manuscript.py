@@ -53,6 +53,41 @@ def collect_claims() -> list[tuple[str, float]]:
             claims.append((f"{ds} control C AUC linear", round(pre["auc_lr"], 4)))
             claims.append((f"{ds} control C AUC neural", round(pre["auc_mlp"], 4)))
 
+    # Control B with the back-projection rule removed.
+    for ds, fn in (("german", "composed_attribution.json"),
+                   ("taiwan", "composed_attribution_taiwan.json")):
+        f = RESULTS / fn
+        if not f.exists():
+            continue
+        c = json.loads(f.read_text())
+        for key, label in (("mean_published", "with the rule"),
+                           ("mean_rule_free", "rule free"),
+                           ("mean_rule_cost", "rule against composed")):
+            if key in c:
+                claims.append((f"{ds} control B, {label}", round(c[key], 3)))
+
+    # What the encoding alone costs, from the two grids.
+    f = RESULTS / "encoding_cost.json"
+    if f.exists():
+        enc = json.loads(f.read_text())
+        for ds in ("german", "taiwan"):
+            node = enc.get(ds, {})
+            for key, label in (("mean_tree", "encoding changed"),
+                               ("mean_control", "encoding unchanged")):
+                if key in node:
+                    claims.append((f"{ds} {label}", round(node[key], 3)))
+
+    # The component sweep, which the paper quotes to two decimals.
+    sweep = RESULTS / "sweep"
+    if sweep.exists():
+        for f in sorted(sweep.glob("*.json")):
+            d = json.loads(f.read_text())
+            k = d["run"]["n_components"]
+            ds = d["run"]["dataset"]
+            claims.append((f"{ds} sweep k={k}, rule free", round(d["mean_rule_free"], 2)))
+            claims.append((f"{ds} sweep k={k}, variance",
+                           round(100 * d["explained_variance"])))
+
     # The baseline Control C is read against, measured where the control is.
     f = RESULTS / "attribution_controls_replication.json"
     if f.exists():
@@ -166,12 +201,21 @@ def main() -> int:
     # Compare numerically rather than as text: the manuscript writes 0.15
     # where the stored value rounds to 0.150, and both are the same claim.
     found_numbers = [float(t) for t in re.findall(r"-?\d+\.\d+", tex)]
+    # Some claims are whole numbers, such as a percentage of variance, and the
+    # decimal pattern above never sees them. This is a weaker check than the
+    # one for decimals: small integers are common in prose, so a match here is
+    # evidence the number appears, not that it appears where it belongs.
+    found_integers = {int(t) for t in re.findall(r"(?<![\d.])(\d+)(?![\d.])", tex)}
 
     missing = 0
     print(f"{'claim':<40} {'value':>9}  present in manuscript?")
     for label, value in collect_claims():
-        found = any(abs(f - value) < 5e-5 for f in found_numbers)
-        print(f"  {label:<38} {value:9.4f}  {'yes' if found else 'NOT FOUND'}")
+        if float(value).is_integer():
+            found = int(value) in found_integers
+        else:
+            found = any(abs(f - value) < 5e-5 for f in found_numbers)
+        shown = f"{value:9.0f}" if float(value).is_integer() else f"{value:9.4f}"
+        print(f"  {label:<38} {shown}  {'yes' if found else 'NOT FOUND'}")
         if not found:
             missing += 1
 

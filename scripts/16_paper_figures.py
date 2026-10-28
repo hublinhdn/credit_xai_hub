@@ -137,7 +137,7 @@ def fig_weighting(rows: list[dict], out: Path, bad_rate: float, dataset: str) ->
     if not pairs:
         return
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.8))
-    names = [p[0] for p in pairs]
+    names = [display(p[0]) for p in pairs]
     x = np.arange(len(pairs))
     w = 0.36
 
@@ -180,6 +180,22 @@ def tex_table(rows: list[str], header: str, caption: str, label: str, spec: str)
     )
 
 
+DISPLAY = {
+    "lr_l1": "Logistic regression, L1",
+    "lr_l2": "Logistic regression, L2",
+    "mlp": "Multilayer perceptron",
+    "rf": "Random forest",
+    "hgb": "Histogram gradient boosting",
+    "sgb": "Stochastic gradient boosting",
+    "majority": "Majority class",
+}
+
+
+def display(name: str) -> str:
+    """A model's name as a reader meets it, not as the results tree stores it."""
+    return DISPLAY.get(name, name.replace("_", "\\_"))
+
+
 def table_discrimination(rows: list[dict], mcnemar: dict, out: Path) -> None:
     """Which models may enter the attribution comparison, and why.
 
@@ -199,16 +215,16 @@ def table_discrimination(rows: list[dict], mcnemar: dict, out: Path) -> None:
                 if top["name"] in parts and r["name"] in parts:
                     verdict = "yes" if v["significant_05"] else "no"
                     break
-        name = r["name"].replace("_", "\\_")
+        name = display(r["name"])
         bold = "\\textbf{" + name + "}" if r is top else name
         lines.append(f"{bold} & {r['auc']:.4f} & {r['sd']:.4f} & {verdict} \\\\")
-    top_name = top["name"].replace("_", "\\_") if top else "the best model"
+    top_name = display(top["name"]) if top else "the best model"
     out.write_text(tex_table(
         lines,
         "Model & AUC & SD & Separable from the best?",
         "Discrimination on German Credit under ten by two cross-validation, "
         f"unweighted models only. The last column reports paired McNemar with "
-        f"Holm correction against \\texttt{{{top_name}}}; a pair it separates is "
+        f"Holm correction against {top_name.lower()}; a pair it separates is "
         "excluded from the attribution comparison.",
         "tab:discrimination", "lrrc"))
     print(f"  wrote {out}")

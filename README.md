@@ -104,6 +104,20 @@ To retrain from scratch instead, in order:
 weight-of-evidence coder and the label convention; run it first if something
 looks wrong.
 
+Two further scripts answer questions a reader may have about Control B.
+`scripts/21_composed_attribution.py` explains the composed pipeline, the
+reduction followed by the model, directly over the original features, so the
+back-projection rule plays no part; `--n-components` sweeps the reduction.
+`scripts/22_encoding_cost.py` needs no fitting at all: it compares the two
+grids above to measure what changing only the encoding costs an attribution.
+
+```bash
+.venv/bin/python scripts/21_composed_attribution.py --dataset german
+.venv/bin/python scripts/21_composed_attribution.py --dataset taiwan --max-rows 4000 \
+    --out results/credit/composed_attribution_taiwan.json
+.venv/bin/python scripts/22_encoding_cost.py
+```
+
 Two scripts check rather than compute. `scripts/20_sanity_check.py` is static:
 it verifies imports, documented flags, LaTeX inputs and this tree against the
 code that produced the results, and needs no data. `scripts/17_check_manuscript.py`
