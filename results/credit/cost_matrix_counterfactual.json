@@ -1,0 +1,411 @@
+{
+  "german": {
+    "asymmetric": {
+      "cost_fn": 5.0,
+      "cost_fp": 1.0,
+      "shipped_with_dataset": true,
+      "models": {
+        "lr_l1": {
+          "at_half": {
+            "unweighted": 0.9154,
+            "weighted": 0.6297,
+            "change": -0.28569999999999995,
+            "folds_lowered": 20,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.5062,
+            "weighted": 0.49849999999999994,
+            "change": -0.007700000000000007
+          }
+        },
+        "lr_l2": {
+          "at_half": {
+            "unweighted": 0.8337000000000001,
+            "weighted": 0.5895,
+            "change": -0.24420000000000008,
+            "folds_lowered": 20,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.4951,
+            "weighted": 0.4922999999999999,
+            "change": -0.002800000000000005
+          }
+        },
+        "rf": {
+          "at_half": {
+            "unweighted": 1.0006,
+            "weighted": 0.6915000000000001,
+            "change": -0.3090999999999998,
+            "folds_lowered": 20,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.5176,
+            "weighted": 0.5143000000000001,
+            "change": -0.0032999999999999974
+          }
+        },
+        "sgb": {
+          "at_half": {
+            "unweighted": 0.8868,
+            "weighted": 0.6822999999999999,
+            "change": -0.20450000000000013,
+            "folds_lowered": 20,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.5282,
+            "weighted": 0.5224000000000001,
+            "change": -0.0058
+          }
+        },
+        "hgb": {
+          "at_half": {
+            "unweighted": 0.8788,
+            "weighted": 0.7675,
+            "change": -0.11130000000000007,
+            "folds_lowered": 19,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.538,
+            "weighted": 0.5409999999999999,
+            "change": 0.003000000000000014
+          }
+        },
+        "mlp": {
+          "at_half": {
+            "unweighted": 1.1686,
+            "weighted": 0.8899999999999999,
+            "change": -0.2786000000000002,
+            "folds_lowered": 14,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.5026,
+            "weighted": 0.6026000000000001,
+            "change": 0.09999999999999998
+          }
+        }
+      }
+    },
+    "symmetric": {
+      "cost_fn": 1.0,
+      "cost_fp": 1.0,
+      "shipped_with_dataset": false,
+      "models": {
+        "lr_l1": {
+          "at_half": {
+            "unweighted": 0.253,
+            "weighted": 0.2893,
+            "change": 0.0363,
+            "folds_lowered": 0,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.24159999999999998,
+            "weighted": 0.2425,
+            "change": 0.0008999999999999994
+          }
+        },
+        "lr_l2": {
+          "at_half": {
+            "unweighted": 0.2473,
+            "weighted": 0.28709999999999997,
+            "change": 0.039799999999999974,
+            "folds_lowered": 0,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.2392,
+            "weighted": 0.23870000000000005,
+            "change": -0.0005000000000000019
+          }
+        },
+        "rf": {
+          "at_half": {
+            "unweighted": 0.23980000000000007,
+            "weighted": 0.25830000000000003,
+            "change": 0.01849999999999996,
+            "folds_lowered": 3,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.2264,
+            "weighted": 0.22990000000000005,
+            "change": 0.0035000000000000044
+          }
+        },
+        "sgb": {
+          "at_half": {
+            "unweighted": 0.24160000000000004,
+            "weighted": 0.2711,
+            "change": 0.02949999999999997,
+            "folds_lowered": 2,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.22879999999999998,
+            "weighted": 0.2286,
+            "change": -0.00020000000000000017
+          }
+        },
+        "hgb": {
+          "at_half": {
+            "unweighted": 0.2468,
+            "weighted": 0.2599,
+            "change": 0.013100000000000028,
+            "folds_lowered": 3,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.23489999999999997,
+            "weighted": 0.23249999999999998,
+            "change": -0.0024000000000000007
+          }
+        },
+        "mlp": {
+          "at_half": {
+            "unweighted": 0.27419999999999994,
+            "weighted": 0.3044,
+            "change": 0.03020000000000006,
+            "folds_lowered": 2,
+            "n_folds": 20
+          },
+          "at_optimal": {
+            "unweighted": 0.24110000000000004,
+            "weighted": 0.26660000000000006,
+            "change": 0.025500000000000012
+          }
+        }
+      }
+    }
+  },
+  "taiwan": {
+    "asymmetric": {
+      "cost_fn": 5.0,
+      "cost_fp": 1.0,
+      "shipped_with_dataset": false,
+      "models": {
+        "lr_l1": {
+          "at_half": {
+            "unweighted": 0.8643533333333332,
+            "weighted": 0.62926,
+            "change": -0.23509333333333315,
+            "folds_lowered": 10,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.6212733333333332,
+            "weighted": 0.6242466666666666,
+            "change": 0.002973333333333328
+          }
+        },
+        "lr_l2": {
+          "at_half": {
+            "unweighted": 0.8634999999999999,
+            "weighted": 0.6302066666666667,
+            "change": -0.23329333333333324,
+            "folds_lowered": 10,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.6214133333333333,
+            "weighted": 0.6254066666666667,
+            "change": 0.003993333333333349
+          }
+        },
+        "rf": {
+          "at_half": {
+            "unweighted": 0.75394,
+            "weighted": 0.5817866666666667,
+            "change": -0.17215333333333338,
+            "folds_lowered": 10,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.5499600000000001,
+            "weighted": 0.5492933333333334,
+            "change": -0.000666666666666682
+          }
+        },
+        "sgb": {
+          "at_half": {
+            "unweighted": 0.7383266666666667,
+            "weighted": 0.5707666666666666,
+            "change": -0.16756000000000004,
+            "folds_lowered": 10,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.5497066666666667,
+            "weighted": 0.5503933333333333,
+            "change": 0.0006866666666666688
+          }
+        },
+        "hgb": {
+          "at_half": {
+            "unweighted": 0.73892,
+            "weighted": 0.5682066666666667,
+            "change": -0.17071333333333327,
+            "folds_lowered": 10,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.5494399999999999,
+            "weighted": 0.54854,
+            "change": -0.0009000000000000119
+          }
+        },
+        "mlp": {
+          "at_half": {
+            "unweighted": 0.7386666666666667,
+            "weighted": 0.5889533333333332,
+            "change": -0.14971333333333348,
+            "folds_lowered": 10,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.5544533333333334,
+            "weighted": 0.5683533333333333,
+            "change": 0.013899999999999978
+          }
+        }
+      }
+    },
+    "symmetric": {
+      "cost_fn": 1.0,
+      "cost_fp": 1.0,
+      "shipped_with_dataset": true,
+      "models": {
+        "lr_l1": {
+          "at_half": {
+            "unweighted": 0.19006,
+            "weighted": 0.31683333333333336,
+            "change": 0.12677333333333335,
+            "folds_lowered": 0,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.18223999999999999,
+            "weighted": 0.1832333333333333,
+            "change": 0.0009933333333333378
+          }
+        },
+        "lr_l2": {
+          "at_half": {
+            "unweighted": 0.18998,
+            "weighted": 0.3180733333333333,
+            "change": 0.1280933333333333,
+            "folds_lowered": 0,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.18218666666666666,
+            "weighted": 0.18344666666666667,
+            "change": 0.0012600000000000055
+          }
+        },
+        "rf": {
+          "at_half": {
+            "unweighted": 0.18060666666666667,
+            "weighted": 0.22477333333333332,
+            "change": 0.04416666666666666,
+            "folds_lowered": 0,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.17955333333333331,
+            "weighted": 0.1815,
+            "change": 0.001946666666666666
+          }
+        },
+        "sgb": {
+          "at_half": {
+            "unweighted": 0.17952666666666667,
+            "weighted": 0.23609999999999998,
+            "change": 0.05657333333333331,
+            "folds_lowered": 0,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.17886666666666667,
+            "weighted": 0.17845333333333332,
+            "change": -0.00041333333333333223
+          }
+        },
+        "hgb": {
+          "at_half": {
+            "unweighted": 0.1794,
+            "weighted": 0.23844666666666664,
+            "change": 0.059046666666666636,
+            "folds_lowered": 0,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.1784666666666667,
+            "weighted": 0.17852666666666667,
+            "change": 6.0000000000001716e-05
+          }
+        },
+        "mlp": {
+          "at_half": {
+            "unweighted": 0.18010666666666664,
+            "weighted": 0.26727333333333336,
+            "change": 0.08716666666666673,
+            "folds_lowered": 0,
+            "n_folds": 10
+          },
+          "at_optimal": {
+            "unweighted": 0.17934666666666668,
+            "weighted": 0.18721333333333334,
+            "change": 0.007866666666666666
+          }
+        }
+      }
+    }
+  },
+  "summary": {
+    "asymmetric": {
+      "cells": 12,
+      "cells_lowered": 12,
+      "folds": 180,
+      "folds_lowered": 173,
+      "mean_change": -0.21349388888888887,
+      "cells_lowered_at_optimal": 6,
+      "mean_change_at_optimal": 0.008615555555555552
+    },
+    "symmetric": {
+      "cells": 12,
+      "cells_lowered": 0,
+      "folds": 180,
+      "folds_lowered": 10,
+      "mean_change": 0.055768333333333336,
+      "cells_lowered_at_optimal": 4,
+      "mean_change_at_optimal": 0.0032094444444444466
+    }
+  },
+  "run": {
+    "models": [
+      "lr_l1",
+      "lr_l2",
+      "rf",
+      "sgb",
+      "hgb",
+      "mlp"
+    ],
+    "matrices": {
+      "asymmetric": [
+        5.0,
+        1.0
+      ],
+      "symmetric": [
+        1.0,
+        1.0
+      ]
+    },
+    "run_dir": "results/credit"
+  }
+}

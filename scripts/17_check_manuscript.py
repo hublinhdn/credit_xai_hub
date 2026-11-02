@@ -77,6 +77,25 @@ def collect_claims() -> list[tuple[str, float]]:
                 if key in node:
                     claims.append((f"{ds} {label}", round(node[key], 3)))
 
+    # Scoring every fold under both cost matrices, which is what separates the
+    # matrix from the imbalance.
+    f = RESULTS / "cost_matrix_counterfactual.json"
+    if f.exists():
+        cf = json.loads(f.read_text())
+        for matrix, node in cf.get("summary", {}).items():
+            claims.append((f"{matrix} folds lowered", node["folds_lowered"]))
+            claims.append((f"{matrix} folds", node["folds"]))
+            claims.append((f"{matrix} cells lowered at optimum",
+                           node["cells_lowered_at_optimal"]))
+            claims.append((f"{matrix} change at optimum",
+                           round(node["mean_change_at_optimal"], 4)))
+        # The two counterfactual arms the prose quotes, each the benchmark
+        # scored under the matrix the other one ships with.
+        for ds, matrix in (("german", "symmetric"), ("taiwan", "asymmetric")):
+            cell = cf[ds][matrix]["models"]["lr_l2"]["at_half"]
+            claims.append((f"{ds} under {matrix}, unweighted", round(cell["unweighted"], 4)))
+            claims.append((f"{ds} under {matrix}, weighted", round(cell["weighted"], 4)))
+
     # The component sweep, which the paper quotes to two decimals.
     sweep = RESULTS / "sweep"
     if sweep.exists():

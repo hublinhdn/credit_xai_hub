@@ -1,7 +1,8 @@
-# Representation, Not Model Family, Determines the Explanation
+# Dimensionality Reduction Outweighs Model Family in Credit Risk Explanations
 
-Code and per-fold results for the paper *Representation, Not Model Family,
-Determines the Explanation: Attribution Agreement in Credit Risk Models*.
+Code and per-fold results for the paper *Dimensionality Reduction Outweighs
+Model Family in Credit Risk Explanations: A Controlled Comparison on Two
+Public Benchmarks*.
 
 The paper claims that no number in it is typed by hand. This repository is
 what makes that claim checkable: every figure and every table regenerates from
@@ -116,6 +117,18 @@ grids above to measure what changing only the encoding costs an attribution.
 .venv/bin/python scripts/21_composed_attribution.py --dataset taiwan --max-rows 4000 \
     --out results/credit/composed_attribution_taiwan.json
 .venv/bin/python scripts/22_encoding_cost.py
+```
+
+`scripts/23_cost_matrix_counterfactual.py` also fits nothing. The two
+benchmarks differ in their cost matrix and in how imbalanced they are at the
+same time, so neither alone explains which way class weighting moves expected
+cost. A cost matrix applies at evaluation, so the script scores every stored
+fold under both matrices, which varies the matrix inside each benchmark while
+its class ratio stays fixed. It first confirms that its own recomputation
+reproduces the figure each training run stored.
+
+```bash
+.venv/bin/python scripts/23_cost_matrix_counterfactual.py
 ```
 
 Two scripts check rather than compute. `scripts/20_sanity_check.py` is static:
